@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viking Warrior Women - AI Video Museum</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Norse:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #f0f0f0;
+            font-family: 'Cinzel', serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #d4af37;
+            animation: float 6s infinite linear;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.3), transparent);
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            color: #d4af37;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            animation: titleGlow 3s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from {
+                text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.3);
+            }
+            to {
+                text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 30px rgba(212, 175, 55, 0.6);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b8860b;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .rune-divider {
+            font-size: 2rem;
+            color: #8b4513;
+            margin: 1rem 0;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(145deg, #8b4513, #a0522d);
+            color: #f0f0f0;
+            border: 2px solid #d4af37;
+            padding: 12px 24px;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(145deg, #a0522d, #8b4513);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(145deg, #d4af37, #b8860b);
+            color: #1a1a2e;
+        }
+
+        /* Video Gallery */
+        .video-gallery {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(160, 82, 45, 0.6));
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: transform 0.6s ease;
+            transform: rotate(-45deg) translateX(-100%);
+        }
+
+        .video-card:hover::before {
+            transform: rotate(-45deg) translateX(100%);
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+            border-color: #ffd700;
+        }
+
+        .video-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 2px dashed #8b4513;
+        }
+
+        .placeholder-icon {
+            font-size: 3rem;
+            color: #8b4513;
+            margin-bottom: 1rem;
+        }
+
+        .placeholder-text {
+            color: #b8860b;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .control-btn {
+            background: linear-gradient(145deg, #654321, #8b4513);
+            color: #f0f0f0;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(145deg, #8b4513, #a0522d);
+            transform: translateY(-2px);
+        }
+
+        .video-description {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ddd;
+            text-align: center;
+        }
+
+        /* Audio controls */
+        .audio-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .audio-toggle {
+            background: linear-gradient(145deg, #8b4513, #654321);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .audio-toggle:hover {
+            background: linear-gradient(145deg, #a0522d, #8b4513);
+            transform: scale(1.1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .video-gallery {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #8b4513;
+            border-radius: 50%;
+            border-top-color: #d4af37;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Audio controls -->
+    <div class="audio-controls">
+        <button class="audio-toggle" id="audioToggle" title="Toggle Background Music">
+            🎵
+        </button>
+    </div>
+
+    <!-- Hidden audio element -->
+    <audio id="backgroundAudio" loop>
+        <!-- You would add your Viking-themed background music source here -->
+        <!-- <source src="viking-music.mp3" type="audio/mpeg"> -->
+    </audio>
+
+    <header>
+        <h1 class="main-title">VIKING WARRIOR WOMEN</h1>
+        <div class="rune-divider">⚔ ᚱᚢᚾᛖ ⚔</div>
+        <p class="subtitle">AI-Generated Chronicles of the Norse Shields-Maidens</p>
+        
+        <div class="nav-controls">
+            <button class="nav-btn active" data-category="all">All Videos</button>
+            <button class="nav-btn" data-category="battle">Battle Scenes</button>
+            <button class="nav-btn" data-category="portrait">Portraits</button>
+            <button class="nav-btn" data-category="saga">Saga Stories</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="video-gallery" id="videoGallery">
+            <!-- Video Card 1 -->
+            <div class="video-card fade-in" data-category="battle">
+                <h3 class="video-title">Brynhild's Last Stand</h3>
+                <div class="video-container">
+                    
+            
+                    <video controls preload="metadata">
+                        <source src="vikingone.mp4" type="video/mp4">
+                        <source src="vikingone.webm" type="video/webm">
+                        
+                    </video>
+                    
+                    <div class="video-placeholder">
+                        <div class="placeholder-icon">⚔️</div>
+                        <div class="placeholder-text">AI Video: Epic battle scene<br>featuring the legendary shieldmaiden</div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playVideo(this)">▶ Play</button>
+                    <button class="control-btn" onclick="pauseVideo(this)">⏸ Pause</button>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 Sound</button>
+                </div>
+                <p class="video-description">
+                    An AI-generated epic depicting Brynhild's legendary final battle against overwhelming odds. 
+                    Witness the fierce determination and tactical brilliance of Norse warrior women.
+                </p>
+            </div>
+
+            <!-- Video Card 2 -->
+            <div class="video-card fade-in" data-category="portrait">
+                <h3 class="video-title">Lagertha's Portrait</h3>
+                <div class="video-container">
+                    <!-- REPLACE THIS PLACEHOLDER WITH YOUR VIDEO -->
+                
+                    <video controls preload="metadata">
+                        <source src="vikingtwo.mp4" type="video/mp4">
+                        <source src="vikingtwo.webm" type="video/webm">
+                       
+                    </video>
+                    
+                    <div class="video-placeholder">
+                        <div class="placeholder-icon">👑</div>
+                        <div class="placeholder-text">AI Video: Character study<br>of the legendary Earless</div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playVideo(this)">▶ Play</button>
+                    <button class="control-btn" onclick="pauseVideo(this)">⏸ Pause</button>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 Sound</button>
+                </div>
+                <p class="video-description">
+                    A haunting AI portrait showcasing the wisdom and strength of Lagertha, 
+                    revealing the depth behind her legendary status as both warrior and ruler. Along with her legendary scream.
+                    Used GEN SPACE 
+                </p>
+            </div>
+
+            <!-- Video Card 3 -->
+            <div class="video-card fade-in" data-category="saga">
+                <h3 class="video-title">The Valkyrie's Journey</h3>
+                <div class="video-container">
+                    <div class="video-placeholder">
+
+                        <video controls preload="metadata">
+                            <source src="vikingthree.mp4" type="video/mp4">
+                            <source src="vikingthree.webm" type="video/webm">
+                        </video>
+
+
+                        <div class="placeholder-icon">🦅</div>
+                        <div class="placeholder-text">AI Video: Mythological tale<br>of divine warrior maidens</div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playVideo(this)">▶ Play</button>
+                    <button class="control-btn" onclick="pauseVideo(this)">⏸ Pause</button>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 Sound</button>
+                </div>
+                <p class="video-description">
+                    Experience the mystical journey of the women warriors through AI visualization, 
+                    blending Norse mythology with stunning visual storytelling. USED HEYGEN
+                </p>
+            </div>
+
+            <!-- Video Card 4 -->
+            <div class="video-card fade-in" data-category="battle">
+                <h3 class="video-title">Shield-Wall Formation</h3>
+                <div class="video-container">
+                    <div class="video-placeholder">
+
+                        <video controls preload="metadata">
+                            <source src="vikingfour.mp4" type="video/mp4">
+                            <source src="vikingfour.webm" type="video/webm">
+                        </video>
+
+                        <div class="video-placeholder">
+                            <div class="placeholder-icon">🛡️</div>
+                            <div class="placeholder-text">AI Video: Tactical warfare<br>demonstration and training</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playVideo(this)">▶ Play</button>
+                    <button class="control-btn" onclick="pauseVideo(this)">⏸ Pause</button>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 Sound</button>
+                </div>
+                <p class="video-description">
+                    Learn the ancient art of Viking warfare as AI recreates the legendary shield-wall tactics 
+                    employed by Norse warriors in their most crucial battles. USED HAiLOO
+                </p>
+            </div>
+
+            <!-- Video Card 5 -->
+            <div class="video-card fade-in" data-category="portrait">
+                <h3 class="video-title">Freydis the Fearless</h3>
+                <div class="video-container">
+                    <div class="video-placeholder">
+
+                        <video controls preload="metadata">
+                            <source src="vikingfive.mp4" type="video/mp4">
+                            <source src="vikingfive.webm" type="video/webm">
+                        </video>
+
+                        <div class="video-placeholder">
+                            <div class="placeholder-icon">⚡</div>
+                            <div class="placeholder-text">AI Video: Character profile<br>of Erik the Red's daughter</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playVideo(this)">▶ Play</button>
+                    <button class="control-btn" onclick="pauseVideo(this)">⏸ Pause</button>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 Sound</button>
+                </div>
+                <p class="video-description">
+                    Meet Freydis Eriksdottir, one of the most formidable Viking explorers, 
+                    brought to life through advanced AI storytelling and visual effects. USED GENSPACE
+                </p>
+            </div>
+
+            <!-- Video Card 6 -->
+            <div class="video-card fade-in" data-category="saga">
+                <h3 class="video-title">My AI </h3>
+                <div class="video-container">
+                    <div class="video-placeholder">
+
+                        <video controls preload="metadata">
+                            <source src="self.mp4" type="video/mp4">
+                            <source src="self.webm" type="video/webm">
+                        </video>
+
+                        <div class="video-placeholder">
+                        <div class="placeholder-icon">🌩️</div>
+                        <div class="placeholder-text">AI Video: Apocalyptic saga<br>of the end times warriors</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="playVideo(this)">▶ Play</button>
+                    <button class="control-btn" onclick="pauseVideo(this)">⏸ Pause</button>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 Sound</button>
+                </div>
+                <p class="video-description">
+                   This is myself speaking about full stack coding. USED HEYGEN 
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const numberOfParticles = 50;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Navigation filtering
+        function setupNavigation() {
+            const navBtns = document.querySelectorAll('.nav-btn');
+            const videoCards = document.querySelectorAll('.video-card');
+
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.getAttribute('data-category');
+                    
+                    // Update active button
+                    navBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Filter videos
+                    videoCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                            card.style.animation = 'fadeIn 0.5s ease forwards';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Video control functions
+        function playVideo(button) {
+            const card = button.closest('.video-card');
+            const videoContainer = card.querySelector('.video-container');
+            const video = videoContainer.querySelector('video');
+            const placeholder = videoContainer.querySelector('.video-placeholder');
+            
+            // If there's an actual video element, play it
+            if (video) {
+                button.innerHTML = '<span class="loading"></span> Loading...';
+                button.disabled = true;
+                
+                video.play().then(() => {
+                    button.innerHTML = '⏸ Playing';
+                    button.disabled = false;
+                    playSound('play');
+                }).catch(e => {
+                    console.log('Video play failed:', e);
+                    button.innerHTML = '▶ Play';
+                    button.disabled = false;
+                });
+            } else {
+                // Placeholder behavior (demo mode)
+                button.innerHTML = '<span class="loading"></span> Loading...';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    placeholder.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #000; color: #d4af37; font-size: 1.2rem;">
+                            ▶ Video Playing<br><small style="color: #b8860b;">(Demo Mode - Add your video source)</small>
+                        </div>
+                    `;
+                    button.innerHTML = '▶ Play';
+                    button.disabled = false;
+                    playSound('play');
+                }, 1000);
+            }
+        }
+
+        function pauseVideo(button) {
+            const card = button.closest('.video-card');
+            const videoContainer = card.querySelector('.video-container');
+            const video = videoContainer.querySelector('video');
+            const placeholder = videoContainer.querySelector('.video-placeholder');
+            
+            // If there's an actual video element, pause it
+            if (video) {
+                video.pause();
+                button.innerHTML = '▶ Play';
+                playSound('pause');
+            } else {
+                // Placeholder behavior (demo mode)
+                placeholder.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #1a1a2e; color: #8b4513; font-size: 1.2rem;">
+                        ⏸ Video Paused<br><small style="color: #b8860b;">Ready to resume</small>
+                    </div>
+                `;
+                playSound('pause');
+            }
+        }
+
+        function toggleMute(button) {
+            const card = button.closest('.video-card');
+            const video = card.querySelector('video');
+            
+            // If there's an actual video element, toggle its mute
+            if (video) {
+                video.muted = !video.muted;
+                button.innerHTML = video.muted ? '🔇 Muted' : '🔊 Sound';
+            } else {
+                // Placeholder behavior
+                const isMuted = button.textContent.includes('🔇');
+                button.innerHTML = isMuted ? '🔊 Sound' : '🔇 Muted';
+            }
+            
+            playSound('toggle');
+        }
+
+        // Audio controls
+        function setupAudioControls() {
+            const audioToggle = document.getElementById('audioToggle');
+            const audio = document.getElementById('backgroundAudio');
+            let isPlaying = false;
+
+            audioToggle.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    audioToggle.textContent = '🔇';
+                    audioToggle.title = 'Play Background Music';
+                } else {
+                    // Since we don't have an actual audio file, we'll just simulate
+                    audioToggle.textContent = '🎵';
+                    audioToggle.title = 'Pause Background Music';
+                }
+                isPlaying = !isPlaying;
+            });
+        }
+
+        // Sound effects simulation
+        function playSound(type) {
+            // In a real implementation, you would play actual sound files
+            // For demo purposes, we'll use the Web Audio API to create simple tones
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                switch(type) {
+                    case 'play':
+                        oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                        break;
+                    case 'pause':
+                        oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+                        break;
+                    case 'toggle':
+                        oscillator.frequency.setValueAtTime(330, audioContext.currentTime);
+                        break;
+                }
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch (e) {
+                // Fallback if Web Audio API is not supported
+                console.log('Sound effect:', type);
+            }
+        }
+
+        // Scroll animations
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setupNavigation();
+            setupAudioControls();
+            setupScrollAnimations();
+            
+            // Add some interactive hover effects
+            document.querySelectorAll('.video-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                const focused = document.activeElement;
+                if (focused.classList.contains('control-btn')) {
+                    e.preventDefault();
+                    focused.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
